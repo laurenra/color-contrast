@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Text Color Viewer</title>
+  <style>
+    :root {
+      color: #222;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f6f7f9;
+    }
+
+    body {
+      margin: 0;
+      padding: 32px;
+    }
+
+    h1 {
+      margin: 0 0 24px;
+      text-align: center;
+      font-size: 2rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      box-shadow: 0 1px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    th,
+    td {
+      border: 1px solid #d7dce2;
+      padding: 14px;
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    th {
+      background: #263238;
+      color: #fff;
+      font-weight: 700;
+      word-wrap: normal;
+    }
+
+    .text-sample {
+      display: inline-block;
+      min-width: 170px;
+      padding: 8px 10px;
+      color: #000;
+      background-color: #fff;
+      border: 1px solid #c7ccd3;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+
+    .color-control {
+      display: grid;
+      grid-template-columns: 48px minmax(120px, 1fr);
+      align-items: center;
+      column-gap: 12px;
+    }
+
+    input[type="color"] {
+      width: 48px;
+      height: 36px;
+      padding: 2px;
+      border: 1px solid #aeb6bf;
+      border-radius: 4px;
+      background: #fff;
+      cursor: pointer;
+    }
+
+    .color-values {
+      color: #36424f;
+      font-size: 0.875rem;
+      line-height: 1.35;
+    }
+
+    .color-values span {
+      display: block;
+      white-space: nowrap;
+    }
+
+  </style>
+</head>
+<body>
+  <h1>Text Color Viewer</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Text Sample - manual colors</th>
+        <th>Text Sample - auto contrast to black or white text</th>
+        <th>Text Color</th>
+        <th>Background Color</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="text-sample">Text Sample 01234</span></td>
+        <td><span class="text-sample">Text Sample 01234</span></td>
+        <td>
+          <div class="color-control">
+            <input type="color" value="#000000" data-color-role="text" aria-label="Text color for row 1">
+          </div>
+        </td>
+        <td>
+          <div class="color-control">
+            <input type="color" value="#ffffff" data-color-role="background" aria-label="Background color for row 1">
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="text-sample">Text Sample 01234</span></td>
+        <td><span class="text-sample">Text Sample 01234</span></td>
+        <td>
+          <div class="color-control">
+            <input type="color" value="#000000" data-color-role="text" aria-label="Text color for row 2">
+          </div>
+        </td>
+        <td>
+          <div class="color-control">
+            <input type="color" value="#ffffff" data-color-role="background" aria-label="Background color for row 2">
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="text-sample">Text Sample 01234</span></td>
+        <td><span class="text-sample">Text Sample 01234</span></td>
+        <td>
+          <div class="color-control">
+            <input type="color" value="#000000" data-color-role="text" aria-label="Text color for row 3">
+          </div>
+        </td>
+        <td>
+          <div class="color-control">
+            <input type="color" value="#ffffff" data-color-role="background" aria-label="Background color for row 3">
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="text-sample">Text Sample 01234</span></td>
+        <td><span class="text-sample">Text Sample 01234</span></td>
+        <td>
+          <div class="color-control">
+            <input type="color" value="#000000" data-color-role="text" aria-label="Text color for row 4">
+          </div>
+        </td>
+        <td>
+          <div class="color-control">
+            <input type="color" value="#ffffff" data-color-role="background" aria-label="Background color for row 4">
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="text-sample">Text Sample 01234</span></td>
+        <td><span class="text-sample">Text Sample 01234</span></td>
+        <td>
+          <div class="color-control">
+            <input type="color" value="#000000" data-color-role="text" aria-label="Text color for row 5">
+          </div>
+        </td>
+        <td>
+          <div class="color-control">
+            <input type="color" value="#ffffff" data-color-role="background" aria-label="Background color for row 5">
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="text-sample">Text Sample 01234</span></td>
+        <td><span class="text-sample">Text Sample 01234</span></td>
+        <td>
+          <div class="color-control">
+            <input type="color" value="#000000" data-color-role="text" aria-label="Text color for row 6">
+          </div>
+        </td>
+        <td>
+          <div class="color-control">
+            <input type="color" value="#ffffff" data-color-role="background" aria-label="Background color for row 6">
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="text-sample">Text Sample 01234</span></td>
+        <td><span class="text-sample">Text Sample 01234</span></td>
+        <td>
+          <div class="color-control">
+            <input type="color" value="#000000" data-color-role="text" aria-label="Text color for row 7">
+          </div>
+        </td>
+        <td>
+          <div class="color-control">
+            <input type="color" value="#ffffff" data-color-role="background" aria-label="Background color for row 7">
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="text-sample">Text Sample 01234</span></td>
+        <td><span class="text-sample">Text Sample 01234</span></td>
+        <td>
+          <div class="color-control">
+            <input type="color" value="#000000" data-color-role="text" aria-label="Text color for row 8">
+          </div>
+        </td>
+        <td>
+          <div class="color-control">
+            <input type="color" value="#ffffff" data-color-role="background" aria-label="Background color for row 8">
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="text-sample">Text Sample 01234</span></td>
+        <td><span class="text-sample">Text Sample 01234</span></td>
+        <td>
+          <div class="color-control">
+            <input type="color" value="#000000" data-color-role="text" aria-label="Text color for row 9">
+          </div>
+        </td>
+        <td>
+          <div class="color-control">
+            <input type="color" value="#ffffff" data-color-role="background" aria-label="Background color for row 9">
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="text-sample">Text Sample 01234</span></td>
+        <td><span class="text-sample">Text Sample 01234</span></td>
+        <td>
+          <div class="color-control">
+            <input type="color" value="#000000" data-color-role="text" aria-label="Text color for row 10">
+          </div>
+        </td>
+        <td>
+          <div class="color-control">
+            <input type="color" value="#ffffff" data-color-role="background" aria-label="Background color for row 10">
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <script>
+    const hexToRgb = (hex) => {
+      const value = hex.replace('#', '');
+
+      return {
+        r: parseInt(value.slice(0, 2), 16),
+        g: parseInt(value.slice(2, 4), 16),
+        b: parseInt(value.slice(4, 6), 16)
+      };
+    };
+
+    const getLinearChannel = (channel) => {
+      const normalized = channel / 255;
+
+      return normalized <= 0.03928
+        ? normalized / 12.92
+        : ((normalized + 0.055) / 1.055) ** 2.4;
+    };
+
+    const getRelativeLuminance = (color) => {
+      const rgb = hexToRgb(color);
+
+      return (
+        0.2126 * getLinearChannel(rgb.r) +
+        0.7152 * getLinearChannel(rgb.g) +
+        0.0722 * getLinearChannel(rgb.b)
+      );
+    };
+
+    const getAutoContrastColor = (backgroundColor) => {
+      const luminance = getRelativeLuminance(backgroundColor);
+      const blackContrast = (luminance + 0.05) / 0.05;
+      const whiteContrast = 1.05 / (luminance + 0.05);
+
+      return blackContrast >= whiteContrast ? '#000000' : '#ffffff';
+    };
+
+    const updateColorReadout = (input) => {
+      let readout = input.parentElement.querySelector('.color-values');
+      const rgb = hexToRgb(input.value);
+      const hexLine = document.createElement('span');
+      const rgbLine = document.createElement('span');
+
+      if (!readout) {
+        readout = document.createElement('div');
+        readout.className = 'color-values';
+        readout.setAttribute('aria-live', 'polite');
+        input.insertAdjacentElement('afterend', readout);
+      }
+
+      hexLine.textContent = `Hex: ${input.value.toUpperCase()}`;
+      rgbLine.textContent = `RGB: rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
+      readout.replaceChildren(hexLine, rgbLine);
+    };
+
+    const updateRowColors = (row) => {
+      const samples = row.querySelectorAll('.text-sample');
+      const manualSample = samples[0];
+      const autoContrastSample = samples[1];
+      const textColor = row.querySelector('[data-color-role="text"]').value;
+      const backgroundColor = row.querySelector('[data-color-role="background"]').value;
+
+      manualSample.style.color = textColor;
+      manualSample.style.backgroundColor = backgroundColor;
+      autoContrastSample.style.color = getAutoContrastColor(backgroundColor);
+      autoContrastSample.style.backgroundColor = backgroundColor;
+    };
+
+    document.querySelectorAll('tbody tr').forEach(updateRowColors);
+
+    document.querySelectorAll('input[type="color"]').forEach((input) => {
+      updateColorReadout(input);
+
+      input.addEventListener('input', () => {
+        const row = input.closest('tr');
+
+        updateRowColors(row);
+        updateColorReadout(input);
+      });
+    });
+  </script>
+</body>
+</html>
