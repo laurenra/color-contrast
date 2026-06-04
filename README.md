@@ -4,6 +4,8 @@ and see if it has enough contrast to be easily readable.
 
 [See a demo here](https://laurenra.github.io/color-contrast/).
 
+![application page example](img/color-contrast-app-example-1440x881.jpg)
+
 ## Use
 
 This is a one-page app contained in a single HTML file. Download the

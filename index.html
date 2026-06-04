@@ -131,11 +131,19 @@
       font-weight: 700;
     }
 
+    .sample-control,
     .color-control {
       display: grid;
-      grid-template-columns: 48px minmax(120px, 1fr);
       align-items: center;
       column-gap: 12px;
+    }
+
+    .sample-control {
+      grid-template-columns: max-content minmax(120px, 1fr);
+    }
+
+    .color-control {
+      grid-template-columns: 48px minmax(120px, 1fr);
     }
 
     input[type="color"] {
@@ -184,6 +192,13 @@
         </th>
         <th>
           <span class="header-with-hint">
+            <span>Text Sample - auto complimentary text color</span>
+            <button type="button" class="hint-trigger" aria-label="Text color is set automatically to the inverted RGB value of the selected background color." aria-describedby="auto-complimentary-col-hint">?</button>
+            <span class="hint-popup" id="auto-complimentary-col-hint" role="tooltip">Text color is set automatically to the inverted RGB value of the selected background color.</span>
+          </span>
+        </th>
+        <th>
+          <span class="header-with-hint">
             <span>Text Color</span>
             <button type="button" class="hint-trigger" aria-label="Click the color sample to select text color. In the color picker, click the default R G B row (bottom) to input HSL or Hex values." aria-describedby="text-color-col-hint">?</button>
             <span class="hint-popup" id="text-color-col-hint" role="tooltip">Click the color sample to select text color. In the color picker, click the default R G B row (bottom) to input HSL or Hex values.</span>
@@ -203,6 +218,12 @@
         <td><span class="text-sample">Text Sample 01234</span></td>
         <td><span class="text-sample">Text Sample 01234</span></td>
         <td>
+          <div class="sample-control">
+            <span class="text-sample" data-sample-role="auto-complimentary">Text Sample 01234</span>
+            <div class="color-values" data-color-readout="auto-complimentary" aria-live="polite"></div>
+          </div>
+        </td>
+        <td>
           <div class="color-control">
             <input type="color" value="#000000" data-color-role="text" aria-label="Text color for row 1">
           </div>
@@ -216,6 +237,12 @@
       <tr>
         <td><span class="text-sample">Text Sample 01234</span></td>
         <td><span class="text-sample">Text Sample 01234</span></td>
+        <td>
+          <div class="sample-control">
+            <span class="text-sample" data-sample-role="auto-complimentary">Text Sample 01234</span>
+            <div class="color-values" data-color-readout="auto-complimentary" aria-live="polite"></div>
+          </div>
+        </td>
         <td>
           <div class="color-control">
             <input type="color" value="#000000" data-color-role="text" aria-label="Text color for row 2">
@@ -231,6 +258,12 @@
         <td><span class="text-sample">Text Sample 01234</span></td>
         <td><span class="text-sample">Text Sample 01234</span></td>
         <td>
+          <div class="sample-control">
+            <span class="text-sample" data-sample-role="auto-complimentary">Text Sample 01234</span>
+            <div class="color-values" data-color-readout="auto-complimentary" aria-live="polite"></div>
+          </div>
+        </td>
+        <td>
           <div class="color-control">
             <input type="color" value="#000000" data-color-role="text" aria-label="Text color for row 3">
           </div>
@@ -244,6 +277,12 @@
       <tr>
         <td><span class="text-sample">Text Sample 01234</span></td>
         <td><span class="text-sample">Text Sample 01234</span></td>
+        <td>
+          <div class="sample-control">
+            <span class="text-sample" data-sample-role="auto-complimentary">Text Sample 01234</span>
+            <div class="color-values" data-color-readout="auto-complimentary" aria-live="polite"></div>
+          </div>
+        </td>
         <td>
           <div class="color-control">
             <input type="color" value="#000000" data-color-role="text" aria-label="Text color for row 4">
@@ -259,6 +298,12 @@
         <td><span class="text-sample">Text Sample 01234</span></td>
         <td><span class="text-sample">Text Sample 01234</span></td>
         <td>
+          <div class="sample-control">
+            <span class="text-sample" data-sample-role="auto-complimentary">Text Sample 01234</span>
+            <div class="color-values" data-color-readout="auto-complimentary" aria-live="polite"></div>
+          </div>
+        </td>
+        <td>
           <div class="color-control">
             <input type="color" value="#000000" data-color-role="text" aria-label="Text color for row 5">
           </div>
@@ -272,6 +317,12 @@
       <tr>
         <td><span class="text-sample">Text Sample 01234</span></td>
         <td><span class="text-sample">Text Sample 01234</span></td>
+        <td>
+          <div class="sample-control">
+            <span class="text-sample" data-sample-role="auto-complimentary">Text Sample 01234</span>
+            <div class="color-values" data-color-readout="auto-complimentary" aria-live="polite"></div>
+          </div>
+        </td>
         <td>
           <div class="color-control">
             <input type="color" value="#000000" data-color-role="text" aria-label="Text color for row 6">
@@ -287,6 +338,12 @@
         <td><span class="text-sample">Text Sample 01234</span></td>
         <td><span class="text-sample">Text Sample 01234</span></td>
         <td>
+          <div class="sample-control">
+            <span class="text-sample" data-sample-role="auto-complimentary">Text Sample 01234</span>
+            <div class="color-values" data-color-readout="auto-complimentary" aria-live="polite"></div>
+          </div>
+        </td>
+        <td>
           <div class="color-control">
             <input type="color" value="#000000" data-color-role="text" aria-label="Text color for row 7">
           </div>
@@ -300,6 +357,12 @@
       <tr>
         <td><span class="text-sample">Text Sample 01234</span></td>
         <td><span class="text-sample">Text Sample 01234</span></td>
+        <td>
+          <div class="sample-control">
+            <span class="text-sample" data-sample-role="auto-complimentary">Text Sample 01234</span>
+            <div class="color-values" data-color-readout="auto-complimentary" aria-live="polite"></div>
+          </div>
+        </td>
         <td>
           <div class="color-control">
             <input type="color" value="#000000" data-color-role="text" aria-label="Text color for row 8">
@@ -315,6 +378,12 @@
         <td><span class="text-sample">Text Sample 01234</span></td>
         <td><span class="text-sample">Text Sample 01234</span></td>
         <td>
+          <div class="sample-control">
+            <span class="text-sample" data-sample-role="auto-complimentary">Text Sample 01234</span>
+            <div class="color-values" data-color-readout="auto-complimentary" aria-live="polite"></div>
+          </div>
+        </td>
+        <td>
           <div class="color-control">
             <input type="color" value="#000000" data-color-role="text" aria-label="Text color for row 9">
           </div>
@@ -328,6 +397,12 @@
       <tr>
         <td><span class="text-sample">Text Sample 01234</span></td>
         <td><span class="text-sample">Text Sample 01234</span></td>
+        <td>
+          <div class="sample-control">
+            <span class="text-sample" data-sample-role="auto-complimentary">Text Sample 01234</span>
+            <div class="color-values" data-color-readout="auto-complimentary" aria-live="polite"></div>
+          </div>
+        </td>
         <td>
           <div class="color-control">
             <input type="color" value="#000000" data-color-role="text" aria-label="Text color for row 10">
@@ -379,11 +454,25 @@
       return blackContrast >= whiteContrast ? '#000000' : '#ffffff';
     };
 
-    const updateColorReadout = (input) => {
-      let readout = input.parentElement.querySelector('.color-values');
-      const rgb = hexToRgb(input.value);
+    const getInvertedRgbColor = (color) => {
+      const rgb = hexToRgb(color);
+      const toHex = (channel) => (255 - channel).toString(16).padStart(2, '0');
+
+      return `#${toHex(rgb.r)}${toHex(rgb.g)}${toHex(rgb.b)}`;
+    };
+
+    const renderColorReadout = (readout, color) => {
+      const rgb = hexToRgb(color);
       const hexLine = document.createElement('span');
       const rgbLine = document.createElement('span');
+
+      hexLine.textContent = `Hex: ${color.toUpperCase()}`;
+      rgbLine.textContent = `RGB: rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
+      readout.replaceChildren(hexLine, rgbLine);
+    };
+
+    const updateColorReadout = (input) => {
+      let readout = input.parentElement.querySelector('.color-values');
 
       if (!readout) {
         readout = document.createElement('div');
@@ -392,22 +481,26 @@
         input.insertAdjacentElement('afterend', readout);
       }
 
-      hexLine.textContent = `Hex: ${input.value.toUpperCase()}`;
-      rgbLine.textContent = `RGB: rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
-      readout.replaceChildren(hexLine, rgbLine);
+      renderColorReadout(readout, input.value);
     };
 
     const updateRowColors = (row) => {
       const samples = row.querySelectorAll('.text-sample');
       const manualSample = samples[0];
       const autoContrastSample = samples[1];
+      const autoComplimentarySample = samples[2];
+      const autoComplimentaryReadout = row.querySelector('[data-color-readout="auto-complimentary"]');
       const textColor = row.querySelector('[data-color-role="text"]').value;
       const backgroundColor = row.querySelector('[data-color-role="background"]').value;
+      const autoComplimentaryColor = getInvertedRgbColor(backgroundColor);
 
       manualSample.style.color = textColor;
       manualSample.style.backgroundColor = backgroundColor;
       autoContrastSample.style.color = getAutoContrastColor(backgroundColor);
       autoContrastSample.style.backgroundColor = backgroundColor;
+      autoComplimentarySample.style.color = autoComplimentaryColor;
+      autoComplimentarySample.style.backgroundColor = backgroundColor;
+      renderColorReadout(autoComplimentaryReadout, autoComplimentaryColor);
     };
 
     document.querySelectorAll('tbody tr').forEach(updateRowColors);
