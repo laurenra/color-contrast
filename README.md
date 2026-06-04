@@ -1,15 +1,13 @@
 # Color Contrast
-Show the color contrast between two colors. This helps to determine
-the contrast ratio between text color and background color in a web page.
+Try text color and background color combinations to see how it looks
+and see if it has enough contrast to be easily readable.
 
 ## Use
 
-(fill in the details)
-
-## Deploy
-
-## Build
+This is a one-page app contained in a single HTML file. Download the
+index.html file and open it in your browser.
 
 ## TODO
-- [x] (fill in the details)
-- [ ] (fill in the details)
+- [x] Add hints to the column headers.
+- [x] Add a subheading that explains what this is.
+- [ ] Another column that automatically calculates contrasting text color from the background color.
