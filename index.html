@@ -428,6 +428,42 @@
       };
     };
 
+    const hexToHsl = (hex) => {
+      const { r, g, b } = hexToRgb(hex);
+      const red = r / 255;
+      const green = g / 255;
+      const blue = b / 255;
+      const max = Math.max(red, green, blue);
+      const min = Math.min(red, green, blue);
+      const lightness = (max + min) / 2;
+      let hue = 0;
+      let saturation = 0;
+
+      if (max !== min) {
+        const delta = max - min;
+
+        saturation = lightness > 0.5
+          ? delta / (2 - max - min)
+          : delta / (max + min);
+
+        if (max === red) {
+          hue = (green - blue) / delta + (green < blue ? 6 : 0);
+        } else if (max === green) {
+          hue = (blue - red) / delta + 2;
+        } else {
+          hue = (red - green) / delta + 4;
+        }
+
+        hue *= 60;
+      }
+
+      return {
+        h: Math.round(hue),
+        s: Math.round(saturation * 100),
+        l: Math.round(lightness * 100)
+      };
+    };
+
     const getLinearChannel = (channel) => {
       const normalized = channel / 255;
 
@@ -463,12 +499,15 @@
 
     const renderColorReadout = (readout, color) => {
       const rgb = hexToRgb(color);
+      const hsl = hexToHsl(color);
       const hexLine = document.createElement('span');
       const rgbLine = document.createElement('span');
+      const hslLine = document.createElement('span');
 
       hexLine.textContent = `Hex: ${color.toUpperCase()}`;
       rgbLine.textContent = `RGB: rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
-      readout.replaceChildren(hexLine, rgbLine);
+      hslLine.textContent = `HSL: hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
+      readout.replaceChildren(hexLine, rgbLine, hslLine);
     };
 
     const updateColorReadout = (input) => {
