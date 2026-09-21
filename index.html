@@ -162,9 +162,30 @@
       line-height: 1.35;
     }
 
-    .color-values span {
+    .color-values span,
+    .color-value-button {
       display: block;
       white-space: nowrap;
+    }
+
+    .color-value-button {
+      width: max-content;
+      padding: 0;
+      border: 0;
+      background: none;
+      color: inherit;
+      cursor: copy;
+      font: inherit;
+      text-align: left;
+    }
+
+    .color-value-button:hover {
+      text-decoration: underline;
+    }
+
+    .color-value-button:focus-visible {
+      outline: 2px solid #263238;
+      outline-offset: 2px;
     }
 
   </style>
@@ -194,21 +215,24 @@
           <span class="header-with-hint">
             <span>Auto Complimentary Text Color</span>
             <button type="button" class="hint-trigger" aria-label="Text color is set automatically to the inverted RGB value of the background color." aria-describedby="auto-complimentary-col-hint">?</button>
-            <span class="hint-popup" id="auto-complimentary-col-hint" role="tooltip">Text color is set automatically to the inverted RGB value of the background color.</span>
+            <span class="hint-popup" id="auto-complimentary-col-hint" role="tooltip">Text color is set automatically to the inverted RGB value of the background color.
+            <br><br>Click on the Hex, RGB, or HSL values to copy them.</span>
           </span>
         </th>
         <th>
           <span class="header-with-hint">
             <span>Set Text Color</span>
             <button type="button" class="hint-trigger" aria-label="Click the color sample to set text color. In the color picker, click the default R G B row (bottom) to input HSL or Hex values." aria-describedby="text-color-col-hint">?</button>
-            <span class="hint-popup" id="text-color-col-hint" role="tooltip">Click the color sample to set text color. In the color picker, click the default R G B row (bottom) to input HSL or Hex values.</span>
+            <span class="hint-popup" id="text-color-col-hint" role="tooltip">Click the color sample to set text color. In the color picker, click the default R G B row (bottom) to input HSL or Hex values.
+            <br><br>Click on the Hex, RGB, or HSL values to copy them.</span>
           </span>
         </th>
         <th>
           <span class="header-with-hint">
             <span>Set Background Color</span>
             <button type="button" class="hint-trigger" aria-label="Click the color sample to set background color. In the color picker, click the default R G B row (bottom) to input HSL or Hex values." aria-describedby="background-color-col-hint">?</button>
-            <span class="hint-popup" id="background-color-col-hint" role="tooltip">Click the color sample to set background color. In the color picker, click the default R G B row (bottom) to input HSL or Hex values.</span>
+            <span class="hint-popup" id="background-color-col-hint" role="tooltip">Click the color sample to set background color. In the color picker, click the default R G B row (bottom) to input HSL or Hex values.
+            <br><br>Click on the Hex, RGB, or HSL values to copy them.</span>
           </span>
         </th>
       </tr>
@@ -497,16 +521,69 @@
       return `#${toHex(rgb.r)}${toHex(rgb.g)}${toHex(rgb.b)}`;
     };
 
+    const copyText = async (value) => {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        try {
+          await navigator.clipboard.writeText(value);
+          return;
+        } catch (error) {
+          // Fall back for local files or browsers with stricter clipboard permissions.
+        }
+      }
+
+      const textarea = document.createElement('textarea');
+
+      textarea.value = value;
+      textarea.setAttribute('readonly', '');
+      textarea.style.position = 'fixed';
+      textarea.style.top = '0';
+      textarea.style.left = '-9999px';
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+
+      try {
+        const wasCopied = document.execCommand('copy');
+
+        if (!wasCopied) {
+          throw new Error('Copy command was unsuccessful.');
+        }
+      } finally {
+        textarea.remove();
+      }
+    };
+
+    const createColorValueButton = (label, value) => {
+      const button = document.createElement('button');
+
+      button.type = 'button';
+      button.className = 'color-value-button';
+      button.textContent = `${label}: ${value}`;
+      button.setAttribute('aria-label', `Copy ${label} value ${value}`);
+      button.title = `Copy ${value}`;
+
+      button.addEventListener('click', async () => {
+        try {
+          await copyText(value);
+          button.title = `Copied ${value}`;
+        } catch (error) {
+          button.title = `Unable to copy ${value}`;
+        }
+      });
+
+      return button;
+    };
+
     const renderColorReadout = (readout, color) => {
       const rgb = hexToRgb(color);
       const hsl = hexToHsl(color);
-      const hexLine = document.createElement('span');
-      const rgbLine = document.createElement('span');
-      const hslLine = document.createElement('span');
+      const hexValue = color.toUpperCase();
+      const rgbValue = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
+      const hslValue = `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
+      const hexLine = createColorValueButton('Hex', hexValue);
+      const rgbLine = createColorValueButton('RGB', rgbValue);
+      const hslLine = createColorValueButton('HSL', hslValue);
 
-      hexLine.textContent = `Hex: ${color.toUpperCase()}`;
-      rgbLine.textContent = `RGB: rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
-      hslLine.textContent = `HSL: hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
       readout.replaceChildren(hexLine, rgbLine, hslLine);
     };
 
