@@ -521,6 +521,85 @@
       return `#${toHex(rgb.r)}${toHex(rgb.g)}${toHex(rgb.b)}`;
     };
 
+    const toHexColor = (value) => {
+      const normalizedValue = value
+        .trim()
+        .replace(/^x/i, '#')
+        .replace(/^(rgba?|hsla?)\((.*)\)$/i, (color, colorFunction, channels) => {
+          return `${colorFunction}(${channels.replace(/pct/gi, '%').replace(/-/g, ' ')})`;
+        });
+      const colorParser = toHexColor.parser || document.createElement('span');
+
+      if (!normalizedValue) {
+        return null;
+      }
+
+      if (!toHexColor.parser) {
+        colorParser.style.display = 'none';
+        document.body.appendChild(colorParser);
+        toHexColor.parser = colorParser;
+      }
+
+      colorParser.style.color = '';
+      colorParser.style.color = normalizedValue;
+
+      if (!colorParser.style.color) {
+        return null;
+      }
+
+      const rgb = getComputedStyle(colorParser).color.match(/[\d.]+%?/g);
+
+      if (!rgb || rgb.length < 3) {
+        return null;
+      }
+
+      const toChannelHex = (channel) => {
+        const channelValue = channel.endsWith('%')
+          ? Math.round(parseFloat(channel) * 2.55)
+          : Math.round(parseFloat(channel));
+        const clampedValue = Math.max(0, Math.min(255, channelValue));
+
+        return clampedValue.toString(16).padStart(2, '0');
+      };
+
+      return `#${toChannelHex(rgb[0])}${toChannelHex(rgb[1])}${toChannelHex(rgb[2])}`;
+    };
+
+    const setInputColorValue = (input, value) => {
+      if (!value) {
+        return;
+      }
+
+      const hexColor = toHexColor(value);
+
+      if (hexColor) {
+        input.value = hexColor;
+      }
+    };
+
+    const getCompactRowColors = (value) => {
+      if (!value) {
+        return [];
+      }
+
+      return value.split('~', 2);
+    };
+
+    const applyQueryColorValues = () => {
+      const params = new URLSearchParams(window.location.search);
+
+      document.querySelectorAll('tbody tr').forEach((row, index) => {
+        const textInput = row.querySelector('[data-color-role="text"]');
+        const backgroundInput = row.querySelector('[data-color-role="background"]');
+        const [compactTextColor, compactBackgroundColor] = getCompactRowColors(params.get(`r${index}`));
+
+        setInputColorValue(textInput, compactTextColor);
+        setInputColorValue(backgroundInput, compactBackgroundColor);
+        setInputColorValue(textInput, params.get(`r${index}txt`));
+        setInputColorValue(backgroundInput, params.get(`r${index}bak`));
+      });
+    };
+
     const copyText = async (value) => {
       if (navigator.clipboard && navigator.clipboard.writeText) {
         try {
@@ -618,6 +697,8 @@
       autoComplimentarySample.style.backgroundColor = backgroundColor;
       renderColorReadout(autoComplimentaryReadout, autoComplimentaryColor);
     };
+
+    applyQueryColorValues();
 
     document.querySelectorAll('tbody tr').forEach(updateRowColors);
 
