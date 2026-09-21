@@ -16,6 +16,44 @@
       padding: 32px;
     }
 
+    .page-actions {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 20;
+      display: grid;
+      justify-items: end;
+      gap: 6px;
+    }
+
+    .generate-url-button {
+      padding: 8px 12px;
+      border: 1px solid #1c252b;
+      border-radius: 4px;
+      background: #263238;
+      color: #fff;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 700;
+    }
+
+    .generate-url-button:hover {
+      background: #1c252b;
+    }
+
+    .generate-url-button:focus-visible {
+      outline: 2px solid #263238;
+      outline-offset: 2px;
+    }
+
+    .generate-url-status {
+      min-height: 1.2em;
+      color: #36424f;
+      font-size: 0.8125rem;
+      line-height: 1.2;
+      text-align: right;
+    }
+
     h1 {
       margin: 0 0 8px;
       text-align: center;
@@ -188,11 +226,21 @@
       outline-offset: 2px;
     }
 
+    @media (max-width: 720px) {
+      body {
+        padding: 80px 16px 24px;
+      }
+    }
+
   </style>
 </head>
 <body>
+  <div class="page-actions">
+    <button type="button" class="generate-url-button" id="generate-url-button">Generate URL</button>
+    <span class="generate-url-status" id="generate-url-status" aria-live="polite"></span>
+  </div>
   <h1>Text Color Viewer</h1>
-  <p class="subheading">Try text color and background color combinations to see if they're readable. Hover on the ? hints for help.</p>
+  <p class="subheading">Try text color and background color combinations. Hover on ? hints for help.</p>
 
   <table>
     <thead>
@@ -632,6 +680,56 @@
       }
     };
 
+    const getUrlHexColor = (color) => {
+      return `x${color.slice(1).toUpperCase()}`;
+    };
+
+    const getGeneratedUrl = () => {
+      const url = new URL(window.location.href);
+      const params = new URLSearchParams();
+
+      document.querySelectorAll('tbody tr').forEach((row, index) => {
+        const textColor = row.querySelector('[data-color-role="text"]').value.toLowerCase();
+        const backgroundColor = row.querySelector('[data-color-role="background"]').value.toLowerCase();
+
+        if (textColor !== '#000000') {
+          params.set(`r${index}txt`, getUrlHexColor(textColor));
+        }
+
+        if (backgroundColor !== '#ffffff') {
+          params.set(`r${index}bak`, getUrlHexColor(backgroundColor));
+        }
+      });
+
+      url.search = params.toString();
+
+      return url.toString();
+    };
+
+    const initializeGenerateUrlButton = () => {
+      const button = document.getElementById('generate-url-button');
+      const status = document.getElementById('generate-url-status');
+
+      button.addEventListener('click', async () => {
+        const generatedUrl = getGeneratedUrl();
+
+        button.title = generatedUrl;
+
+        try {
+          window.history.replaceState(null, '', generatedUrl);
+        } catch (error) {
+          // Some browsers restrict history updates for local files.
+        }
+
+        try {
+          await copyText(generatedUrl);
+          status.textContent = 'URL copied';
+        } catch (error) {
+          status.textContent = 'URL generated';
+        }
+      });
+    };
+
     const createColorValueButton = (label, value) => {
       const button = document.createElement('button');
 
@@ -699,6 +797,7 @@
     };
 
     applyQueryColorValues();
+    initializeGenerateUrlButton();
 
     document.querySelectorAll('tbody tr').forEach(updateRowColors);
 

@@ -21,6 +21,9 @@ For a compact hex-friendly form, use `r0=xB464C4~xFFFFFF` to set row 1
 text and background colors together. Specific parameters like `r0txt`
 or `r0bak` override the compact row value.
 
+Use the Generate URL button to copy a URL for the current colors. It only
+includes text colors that are not black and background colors that are not white.
+
 ## TODO
 - [x] Add hints to the column headers.
 - [x] Add a subheading that explains what this is.
