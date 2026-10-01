@@ -46,6 +46,11 @@
       outline-offset: 2px;
     }
 
+    .generate-url-action {
+      position: relative;
+      display: inline-flex;
+    }
+
     .generate-url-status {
       min-height: 1.2em;
       color: #36424f;
@@ -147,6 +152,18 @@
       display: block;
     }
 
+    .generate-url-action:hover .hint-popup,
+    .generate-url-action:focus-within .hint-popup {
+      display: block;
+    }
+
+    .generate-url-tooltip {
+      right: 0;
+      left: auto;
+      text-align: left;
+      transform: none;
+    }
+
     thead th:first-child .hint-popup {
       left: 0;
       transform: none;
@@ -236,7 +253,10 @@
 </head>
 <body>
   <div class="page-actions">
-    <button type="button" class="generate-url-button" id="generate-url-button">Generate URL</button>
+    <span class="generate-url-action">
+      <button type="button" class="generate-url-button" id="generate-url-button" aria-describedby="generate-url-hint">Generate URL</button>
+      <span class="hint-popup generate-url-tooltip" id="generate-url-hint" role="tooltip">Generates a URL with the chosen color values. The URL is copied to the clipboard and displayed in the address bar of the browser.</span>
+    </span>
     <span class="generate-url-status" id="generate-url-status" aria-live="polite"></span>
   </div>
   <h1>Text Color Viewer</h1>
@@ -712,8 +732,6 @@
 
       button.addEventListener('click', async () => {
         const generatedUrl = getGeneratedUrl();
-
-        button.title = generatedUrl;
 
         try {
           window.history.replaceState(null, '', generatedUrl);
