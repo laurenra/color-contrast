@@ -2,6 +2,12 @@
 Try text color and background color combinations to see how it looks
 and see if it has enough contrast to be easily readable.
 
+Web Content Accessibility Guidelines
+[(WCAG) 2.1 ratings](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html#rationale-for-the-ratios-chosen)
+and contrast ratios are shown under the text samples. Contrast ratio
+above 4.5:1 is considered "AA" compliant. Contrast ratio above 7:1 is
+"AAA" compliant.
+
 [See a demo here](https://laurenra.github.io/color-contrast/).
 
 ![application page example](img/color-contrast-example-1920.jpg)
