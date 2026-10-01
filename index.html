@@ -186,18 +186,41 @@
       font-weight: 700;
     }
 
+    .sample-summary {
+      display: inline-grid;
+      gap: 6px;
+      justify-items: start;
+    }
+
+    .contrast-result {
+      display: grid;
+      grid-template-columns: 48px max-content;
+      column-gap: 8px;
+      align-items: baseline;
+      color: #36424f;
+      font-size: 0.875rem;
+      line-height: 1.25;
+      white-space: nowrap;
+    }
+
+    .contrast-level {
+      margin-left: 15px;
+      font-weight: normal;
+    }
+
     .sample-control,
     .color-control {
       display: grid;
-      align-items: center;
       column-gap: 12px;
     }
 
     .sample-control {
+      align-items: start;
       grid-template-columns: max-content minmax(120px, 1fr);
     }
 
     .color-control {
+      align-items: center;
       grid-template-columns: 48px minmax(120px, 1fr);
     }
 
@@ -269,14 +292,16 @@
           <span class="header-with-hint">
             <span>Manual Colors</span>
             <button type="button" class="hint-trigger" aria-label="Text color and background color are both set manually." aria-describedby="manual-col-hint">?</button>
-            <span class="hint-popup" id="manual-col-hint" role="tooltip">Text color and background color are both set manually.</span>
+            <span class="hint-popup" id="manual-col-hint" role="tooltip">Text color and background color are both set manually.
+              <br><br><a href="https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html#rationale-for-the-ratios-chosen" target="_blank">Web accessibility compliance rating</a> (AA, AAA, Fail) and contrast ratio are shown.</span>
           </span>
         </th>
         <th>
           <span class="header-with-hint">
             <span>Auto Black or White Text</span>
             <button type="button" class="hint-trigger" aria-label="Text color is set to black or white automatically based on background color" aria-describedby="auto-text-col-hint">?</button>
-            <span class="hint-popup" id="auto-text-col-hint" role="tooltip">Text color is set to black or white automatically based on background color.</span>
+            <span class="hint-popup" id="auto-text-col-hint" role="tooltip">Text color is set to black or white automatically based on background color.
+              <br><br><a href="https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html#rationale-for-the-ratios-chosen" target="_blank">Web accessibility compliance rating</a> (AA, AAA, Fail) and contrast ratio are shown.</span>
           </span>
         </th>
         <th>
@@ -284,6 +309,7 @@
             <span>Auto Complimentary Text Color</span>
             <button type="button" class="hint-trigger" aria-label="Text color is set automatically to the inverted RGB value of the background color." aria-describedby="auto-complimentary-col-hint">?</button>
             <span class="hint-popup" id="auto-complimentary-col-hint" role="tooltip">Text color is set automatically to the inverted RGB value of the background color.
+              <br><br><a href="https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html#rationale-for-the-ratios-chosen" target="_blank">Web accessibility compliance rating</a> (AA, AAA, Fail) and contrast ratio are shown.
             <br><br>Click on the Hex, RGB, or HSL values to copy them.</span>
           </span>
         </th>
@@ -574,6 +600,67 @@
       );
     };
 
+    const getContrastRatio = (textColor, backgroundColor) => {
+      const textLuminance = getRelativeLuminance(textColor);
+      const backgroundLuminance = getRelativeLuminance(backgroundColor);
+      const lighterLuminance = Math.max(textLuminance, backgroundLuminance);
+      const darkerLuminance = Math.min(textLuminance, backgroundLuminance);
+
+      return (lighterLuminance + 0.05) / (darkerLuminance + 0.05);
+    };
+
+    const formatContrastRatio = (ratio) => {
+      return ratio.toFixed(2).replace(/\.?0+$/, '');
+    };
+
+    const getFontWeightNumber = (fontWeight) => {
+      if (fontWeight === 'bold') {
+        return 700;
+      }
+
+      if (fontWeight === 'normal') {
+        return 400;
+      }
+
+      return Number.parseInt(fontWeight, 10) || 400;
+    };
+
+    const isWcagLargeText = (sample) => {
+      const sampleStyle = window.getComputedStyle(sample);
+      const fontSize = Number.parseFloat(sampleStyle.fontSize);
+      const fontWeight = getFontWeightNumber(sampleStyle.fontWeight);
+
+      return fontSize >= 24 || (fontWeight >= 700 && fontSize >= 18.66);
+    };
+
+    const getWcagContrastLevel = (sample, ratio) => {
+      const largeText = isWcagLargeText(sample);
+      const aaaThreshold = largeText ? 4.5 : 7;
+      const aaThreshold = largeText ? 3 : 4.5;
+
+      if (ratio >= aaaThreshold) {
+        return 'AAA';
+      }
+
+      if (ratio >= aaThreshold) {
+        return 'AA';
+      }
+
+      return 'Fail';
+    };
+
+    const getWcagContrastColor = (level) => {
+      if (level === 'AAA') {
+        return '#000000';
+      }
+
+      if (level === 'AA') {
+        return '#000000';
+      }
+
+      return '#000000';
+    };
+
     const getAutoContrastColor = (backgroundColor) => {
       const luminance = getRelativeLuminance(backgroundColor);
       const blackContrast = (luminance + 0.05) / 0.05;
@@ -782,6 +869,46 @@
       readout.replaceChildren(hexLine, rgbLine, hslLine);
     };
 
+    const createContrastResult = () => {
+      const result = document.createElement('div');
+      const ratio = document.createElement('span');
+      const level = document.createElement('span');
+
+      result.className = 'contrast-result';
+      result.setAttribute('aria-live', 'polite');
+      ratio.className = 'contrast-ratio';
+      level.className = 'contrast-level';
+      result.append(level, ratio);
+
+      return result;
+    };
+
+    const prepareSampleSummary = (sample) => {
+      const summary = document.createElement('div');
+
+      summary.className = 'sample-summary';
+      sample.insertAdjacentElement('beforebegin', summary);
+      summary.append(sample, createContrastResult());
+    };
+
+    const prepareContrastResults = () => {
+      document.querySelectorAll('tbody tr').forEach((row) => {
+        Array.from(row.querySelectorAll('.text-sample'))
+          .slice(0, 3)
+          .forEach(prepareSampleSummary);
+      });
+    };
+
+    const updateContrastResult = (sample, textColor, backgroundColor) => {
+      const result = sample.closest('.sample-summary').querySelector('.contrast-result');
+      const ratio = getContrastRatio(textColor, backgroundColor);
+      const level = getWcagContrastLevel(sample, ratio);
+
+      result.querySelector('.contrast-ratio').textContent = `${formatContrastRatio(ratio)}:1`;
+      result.querySelector('.contrast-level').textContent = level;
+      result.querySelector('.contrast-level').style.color = getWcagContrastColor(level);
+    };
+
     const updateColorReadout = (input) => {
       let readout = input.parentElement.querySelector('.color-values');
 
@@ -803,18 +930,23 @@
       const autoComplimentaryReadout = row.querySelector('[data-color-readout="auto-complimentary"]');
       const textColor = row.querySelector('[data-color-role="text"]').value;
       const backgroundColor = row.querySelector('[data-color-role="background"]').value;
+      const autoContrastColor = getAutoContrastColor(backgroundColor);
       const autoComplimentaryColor = getInvertedRgbColor(backgroundColor);
 
       manualSample.style.color = textColor;
       manualSample.style.backgroundColor = backgroundColor;
-      autoContrastSample.style.color = getAutoContrastColor(backgroundColor);
+      autoContrastSample.style.color = autoContrastColor;
       autoContrastSample.style.backgroundColor = backgroundColor;
       autoComplimentarySample.style.color = autoComplimentaryColor;
       autoComplimentarySample.style.backgroundColor = backgroundColor;
+      updateContrastResult(manualSample, textColor, backgroundColor);
+      updateContrastResult(autoContrastSample, autoContrastColor, backgroundColor);
+      updateContrastResult(autoComplimentarySample, autoComplimentaryColor, backgroundColor);
       renderColorReadout(autoComplimentaryReadout, autoComplimentaryColor);
     };
 
     applyQueryColorValues();
+    prepareContrastResults();
     initializeGenerateUrlButton();
 
     document.querySelectorAll('tbody tr').forEach(updateRowColors);
