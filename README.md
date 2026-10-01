@@ -25,8 +25,3 @@ Use the Generate URL button to copy a URL for the current colors. It only
 includes text colors that are not black and background colors that are not white.
 
 To recreate the page in the sample image, [use this URL](https://laurenra.github.io/color-contrast/?r0txt=xD4EC15&r0bak=x951514&r1txt=xE53E31&r1bak=x61C1EE&r2bak=xBA2E9E&r3bak=x51DBD1&r4bak=x32D135&r5bak=xDFF250&r6bak=xEFB10E).
-
-## TODO
-- [x] Add hints to the column headers.
-- [x] Add a subheading that explains what this is.
-- [ ] Another column that automatically calculates contrasting text color from the background color.
