@@ -13,12 +13,12 @@ index.html file and open it in your browser.
 
 Optional URL parameters can prefill row colors. Rows are zero-indexed:
 
-- `r0txt=rgb(180-100-196)` sets row 1 text color.
-- `r0bak=hsl(290-49pct-48pct)` sets row 1 background color.
-- `r1txt=xB464C4` sets row 2 text color with hex, using `x` instead of `#`.
+- `r0txt=rgb(224-36-64)` sets row 1 text color ([try it](https://laurenra.github.io/color-contrast/?r0txt=rgb(224-36-64))).
+- `r0bak=hsl(290-49pct-48pct)` sets row 1 background color ([try it](https://laurenra.github.io/color-contrast/?r0bak=hsl(290-49pct-48pct))).
+- `r1txt=x0A8108` sets row 2 text color with hex, using `x` instead of `#` ([try it](https://laurenra.github.io/color-contrast/?r1txt=x0A8108)).
 
-For a compact hex-friendly form, use `r0=xB464C4~xFFFFFF` to set row 1
-text and background colors together. Specific parameters like `r0txt`
+For a compact hex-friendly form, use `?r0=xB464C4~xEDF990` to set row 1
+text and background colors together ([try it](https://laurenra.github.io/color-contrast/?r0=xB464C4~xEDF990)). Specific parameters like `r0txt`
 or `r0bak` override the compact row value.
 
 Use the Generate URL button to copy a URL for the current colors. It only
